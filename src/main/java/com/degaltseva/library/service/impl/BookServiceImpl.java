@@ -1,7 +1,7 @@
 package com.degaltseva.library.service.impl;
 
 import com.degaltseva.library.entity.Book;
-import com.degaltseva.library.repository.BookRepository;
+import com.degaltseva.library.repository.impl.BookRepository;
 import com.degaltseva.library.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

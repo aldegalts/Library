@@ -1,6 +1,7 @@
-package com.degaltseva.library.repository;
+package com.degaltseva.library.repository.impl;
 
 import com.degaltseva.library.entity.Book;
+import com.degaltseva.library.repository.BookCrudRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -8,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class BookRepository implements CrudRepository<Book, Long> {
+public class BookRepository implements BookCrudRepository {
 
     private final List<Book> bookContainer;
 

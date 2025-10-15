@@ -1,13 +1,14 @@
-package com.degaltseva.library.repository;
+package com.degaltseva.library.repository.impl;
 import java.util.List;
 import java.util.Optional;
 
 import com.degaltseva.library.entity.User;
+import com.degaltseva.library.repository.UserCrudRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserRepository implements CrudRepository<User, Long> {
+public class UserRepository implements UserCrudRepository {
 
     private final List<User> userContainer;
 
