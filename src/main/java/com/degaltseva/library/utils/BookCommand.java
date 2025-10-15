@@ -36,7 +36,6 @@ public class BookCommand implements Command {
             case "read" -> handleRead(parts);
             case "update" -> handleUpdate(parts);
             case "delete" -> handleDelete(parts);
-            case "metric" -> handleMetric(parts);
             default -> System.err.println("Неизвестная команда книги");
         }
     }
@@ -48,7 +47,6 @@ public class BookCommand implements Command {
            book read <id> — показать данные книги
            book update <id> <title> <author> <year> <available> — обновить данные книги
            book delete <id> — удалить книгу
-           book metric /some_metric — вывести метрику
            """;
     }
 
@@ -127,15 +125,6 @@ public class BookCommand implements Command {
 
         bookService.deleteById(id);
         System.out.printf("Книга с id=%d удалена%n", id);
-    }
-
-    private void handleMetric(String[] parts) {
-        if (parts.length < 3) {
-            System.err.println("Использование: book metric /some_metric");
-            return;
-        }
-        // TODO: добавить обработку метрик
-        System.out.println("Метрика ... " + parts[2]);
     }
 
     private Long parsePositiveId(String value) {
