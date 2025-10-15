@@ -13,12 +13,12 @@ import org.springframework.stereotype.Component;
  * Возможности: создание, чтение, обновление и удаление пользователей.
  */
 @Component
-public class UserRepository implements UserCrudRepository {
+public class UserRepositoryImpl implements UserCrudRepository {
 
     private final List<User> userContainer;
 
     @Autowired
-    public UserRepository(List<User> userContainer) {
+    public UserRepositoryImpl(List<User> userContainer) {
         this.userContainer = userContainer;
     }
 

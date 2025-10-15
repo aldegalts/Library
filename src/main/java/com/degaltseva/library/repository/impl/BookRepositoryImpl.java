@@ -14,12 +14,12 @@ import java.util.Optional;
  * Возможности: создание, чтение, обновление и удаление книг.
  */
 @Component
-public class BookRepository implements BookCrudRepository {
+public class BookRepositoryImpl implements BookCrudRepository {
 
     private final List<Book> bookContainer;
 
     @Autowired
-    public BookRepository(List<Book> bookContainer) {
+    public BookRepositoryImpl(List<Book> bookContainer) {
         this.bookContainer = bookContainer;
     }
 

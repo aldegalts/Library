@@ -2,7 +2,7 @@ package com.degaltseva.library.service.impl;
 
 
 import com.degaltseva.library.entity.User;
-import com.degaltseva.library.repository.impl.UserRepository;
+import com.degaltseva.library.repository.UserCrudRepository;
 import com.degaltseva.library.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,10 +15,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
+    private final UserCrudRepository userRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserCrudRepository userRepository) {
         this.userRepository = userRepository;
     }
 
