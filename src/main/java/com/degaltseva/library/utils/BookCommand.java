@@ -36,6 +36,17 @@ public class BookCommand implements Command {
         }
     }
 
+    @Override
+    public String getDescription() {
+        return """
+           book create <id> <title> <author> <year> — добавить книгу
+           book get <id> — показать данные книги
+           book update <id> <title> <author> <year> <available> — обновить данные книги
+           book delete <id> — удалить книгу
+           book metric /some_metric — вывести метрику
+           """;
+    }
+
     private void handleCreate(String[] parts) {
         if (parts.length < 6) {
             System.err.println("Использование: book create <id> <title> <author> <year>");

@@ -35,6 +35,16 @@ public class UserCommand implements Command {
         }
     }
 
+    @Override
+    public String getDescription() {
+        return """
+           user create <id> <login> — создать пользователя
+           user get <id> — вывести информацию о пользователе
+           user update <id> <newLogin> — обновить логин пользователя
+           user delete <id> — удалить пользователя
+           """;
+    }
+
     private void handleCreate(String[] parts) {
         if (parts.length < 4) {
             System.err.println("Использование: user create <id> <login>");

@@ -5,6 +5,7 @@ import java.util.List;
 
 @Component
 public class CommandProcessor {
+
     private final List<Command> commands;
 
     public CommandProcessor(List<Command> commands) {
@@ -12,12 +13,18 @@ public class CommandProcessor {
     }
 
     public void processCommand(String input) {
-        commands.stream()
-                .filter(cmd -> cmd.supports(input))
-                .findFirst()
-                .ifPresentOrElse(
-                        cmd -> cmd.execute(input),
-                        () -> System.out.println("Неизвестная команда...")
-                );
+        if (input == null || input.isBlank()) {
+            System.err.println("Введите команду. Для справки используйте 'help'.");
+            return;
+        }
+
+        for (Command command : commands) {
+            if (command.supports(input)) {
+                command.execute(input);
+                return;
+            }
+        }
+
+        System.err.println("Неизвестная команда. Введите 'help' для списка доступных.");
     }
 }
