@@ -4,6 +4,7 @@ import com.degaltseva.library.entity.Book;
 
 /**
  * Сервис для работы с книгами библиотеки.
+ * <p>
  */
 public interface BookService {
     void createBook(Long id, String title, String author, int year);

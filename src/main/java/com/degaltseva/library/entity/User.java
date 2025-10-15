@@ -2,7 +2,7 @@ package com.degaltseva.library.entity;
 
 /**
  * Сущность пользователя библиотеки.
- *
+ * <p>
  * Возможности: хранение ID и логина пользователя.
  */
 public class User {

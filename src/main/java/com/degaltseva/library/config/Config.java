@@ -49,6 +49,7 @@ public class Config {
     public CommandLineRunner commandScanner(CommandProcessor commandProcessor) {
         return args -> {
             try (Scanner scanner = new Scanner(System.in)) {
+                System.out.println("help — показать список всех доступных команд");
                 System.out.println("Введите команду. 'exit' для выхода.");
                 while (true) {
                     System.out.print("> ");
