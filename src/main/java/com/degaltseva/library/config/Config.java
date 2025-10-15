@@ -15,6 +15,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
+/**
+ * Центральный конфигурационный класс приложения библиотеки.
+ * <p>
+ * Отвечает за создание основных контейнеров (для пользователей и книг),
+ * а также за инициализацию консольного режима взаимодействия.
+ * <p>
+ * Внедряет параметры приложения из {@code application.properties}
+ * и выводит их при запуске через {@link PostConstruct}.
+ */
 @Configuration
 public class Config {
 

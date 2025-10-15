@@ -6,6 +6,11 @@ import com.degaltseva.library.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Реализация сервиса для работы с книгами.
+ *
+ * Возможности: создание, поиск, удаление и обновление книг.
+ */
 @Service
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;

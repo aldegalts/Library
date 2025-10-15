@@ -3,6 +3,15 @@ package com.degaltseva.library.utils;
 import org.springframework.stereotype.Component;
 import java.util.List;
 
+/**
+ * Центральный обработчик команд, введённых пользователем.
+ * <p>
+ * Получает строку команды из консоли, определяет подходящий обработчик
+ * (класс, реализующий интерфейс {@link Command}) и делегирует выполнение ему.
+ * <p>
+ * Использует механизм внедрения зависимостей Spring для автоматического
+ * сбора всех доступных команд в {@code List<Command>}.
+ */
 @Component
 public class CommandProcessor {
 

@@ -3,6 +3,13 @@ package com.degaltseva.library.utils;
 import org.springframework.stereotype.Component;
 import java.util.List;
 
+/**
+ * Команда {@code help}, которая отображает список всех доступных команд в системе.
+ *
+ * <p>Эта команда реализует интерфейс {@link Command} и используется для предоставления пользователю
+ * справочной информации о доступных действиях в библиотечной системе. Команда исключает себя
+ * из вывода, чтобы избежать циклической ссылки.</p>
+ */
 @Component
 public class HelpCommand implements Command {
 

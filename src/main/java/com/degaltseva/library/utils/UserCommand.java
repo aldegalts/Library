@@ -4,6 +4,11 @@ import com.degaltseva.library.entity.User;
 import com.degaltseva.library.service.UserService;
 import org.springframework.stereotype.Component;
 
+/**
+ * Команда для управления пользователями библиотеки.
+ * <p>
+ * Поддерживает создание, получение, обновление и удаление пользователей.
+ */
 @Component
 public class UserCommand implements Command {
 
@@ -28,7 +33,7 @@ public class UserCommand implements Command {
 
         switch (parts[1]) {
             case "create" -> handleCreate(parts);
-            case "get" -> handleGet(parts);
+            case "read" -> handleRead(parts);
             case "update" -> handleUpdate(parts);
             case "delete" -> handleDelete(parts);
             default -> System.err.println("Неизвестная команда пользователя");
@@ -63,7 +68,7 @@ public class UserCommand implements Command {
         System.out.println("Пользователь успешно создан");
     }
 
-    private void handleGet(String[] parts) {
+    private void handleRead(String[] parts) {
         if (parts.length < 3) {
             System.err.println("Использование: user get <id>");
             return;

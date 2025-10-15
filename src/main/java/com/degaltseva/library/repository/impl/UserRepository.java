@@ -7,6 +7,11 @@ import com.degaltseva.library.repository.UserCrudRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * Реализация репозитория для пользователей в "базе данных".
+ *
+ * Возможности: создание, чтение, обновление и удаление пользователей.
+ */
 @Component
 public class UserRepository implements UserCrudRepository {
 

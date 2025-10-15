@@ -1,5 +1,10 @@
 package com.degaltseva.library.entity;
 
+/**
+ * Сущность пользователя библиотеки.
+ *
+ * Возможности: хранение ID и логина пользователя.
+ */
 public class User {
 
     private Long id;

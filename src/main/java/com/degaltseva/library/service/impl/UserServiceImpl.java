@@ -7,6 +7,11 @@ import com.degaltseva.library.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Реализация сервиса для работы с пользователями.
+ *
+ * Возможности: создание, поиск, удаление и обновление пользователей.
+ */
 @Service
 public class UserServiceImpl implements UserService {
 

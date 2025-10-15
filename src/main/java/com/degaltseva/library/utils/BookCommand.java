@@ -4,6 +4,11 @@ import com.degaltseva.library.entity.Book;
 import com.degaltseva.library.service.BookService;
 import org.springframework.stereotype.Component;
 
+/**
+ * Команда для работы с книгами в библиотечной системе.
+ * <p>
+ * Позволяет создавать, получать, изменять и удалять книги.
+ */
 @Component
 public class BookCommand implements Command {
 
@@ -28,7 +33,7 @@ public class BookCommand implements Command {
 
         switch (parts[1]) {
             case "create" -> handleCreate(parts);
-            case "get" -> handleGet(parts);
+            case "read" -> handleRead(parts);
             case "update" -> handleUpdate(parts);
             case "delete" -> handleDelete(parts);
             case "metric" -> handleMetric(parts);
@@ -65,7 +70,7 @@ public class BookCommand implements Command {
         System.out.println("Книга успешно добавлена");
     }
 
-    private void handleGet(String[] parts) {
+    private void handleRead(String[] parts) {
         if (parts.length < 3) {
             System.err.println("Использование: book get <id>");
             return;

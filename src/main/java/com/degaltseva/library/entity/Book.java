@@ -1,5 +1,10 @@
 package com.degaltseva.library.entity;
 
+/**
+ * Сущность книги библиотеки.
+ *
+ * Возможности: хранение ID, названия, автора, года и статуса доступности.
+ */
 public class Book {
 
     private Long id;

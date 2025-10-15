@@ -8,6 +8,11 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Реализация репозитория для книг в "базе данных".
+ *
+ * Возможности: создание, чтение, обновление и удаление книг.
+ */
 @Component
 public class BookRepository implements BookCrudRepository {
 

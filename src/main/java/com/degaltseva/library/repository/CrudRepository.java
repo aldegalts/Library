@@ -1,5 +1,10 @@
 package com.degaltseva.library.repository;
 
+/**
+ * Базовый интерфейс для CRUD-операций с сущностями.
+ *
+ * Возможности: создание, чтение, обновление и удаление сущностей.
+ */
 public interface CrudRepository<T, ID> {
     void create(T entity);
     T read(ID id);
