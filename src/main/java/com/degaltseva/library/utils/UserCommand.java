@@ -20,50 +20,106 @@ public class UserCommand implements Command {
 
     @Override
     public void execute(String input) {
-        String[] parts = input.split(" ");
+        String[] parts = input.trim().split(" +");
         if (parts.length < 2) {
             System.err.println("Некорректная команда для пользователя");
             return;
         }
 
         switch (parts[1]) {
-            case "create" -> {
-                if (parts.length < 4) {
-                    System.err.println("Использование: user create <id> <login>");
-                    return;
-                }
-                userService.createUser(Long.parseLong(parts[2]), parts[3]);
-                System.out.println("Пользователь успешно создан");
-            }
-            case "read" -> {
-                if (parts.length < 3) {
-                    System.err.println("Использование: user read <id>");
-                    return;
-                }
-                User user = userService.findById(Long.parseLong(parts[2]));
-                if (user != null) {
-                    System.out.printf("Пользователь: id=%d, login=%s%n", user.getId(), user.getLogin());
-                } else {
-                    System.err.println("Пользователь не найден");
-                }
-            }
-            case "update" -> {
-                if (parts.length < 4) {
-                    System.err.println("Использование: user update <id> <newLogin>");
-                    return;
-                }
-                userService.updateLogin(Long.parseLong(parts[2]), parts[3]);
-                System.out.println("Логин пользователя обновлён");
-            }
-            case "delete" -> {
-                if (parts.length < 3) {
-                    System.err.println("Использование: user delete <id>");
-                    return;
-                }
-                userService.deleteById(Long.parseLong(parts[2]));
-                System.out.println("Пользователь удалён");
-            }
+            case "create" -> handleCreate(parts);
+            case "get" -> handleGet(parts);
+            case "update" -> handleUpdate(parts);
+            case "delete" -> handleDelete(parts);
             default -> System.err.println("Неизвестная команда пользователя");
+        }
+    }
+
+    private void handleCreate(String[] parts) {
+        if (parts.length < 4) {
+            System.err.println("Использование: user create <id> <login>");
+            return;
+        }
+
+        Long id = parsePositiveId(parts[2]);
+        if (id == null) return;
+
+        if (userService.findById(id) != null) {
+            System.err.printf("Пользователь с id=%d уже существует%n", id);
+            return;
+        }
+
+        userService.createUser(id, parts[3]);
+        System.out.println("Пользователь успешно создан");
+    }
+
+    private void handleGet(String[] parts) {
+        if (parts.length < 3) {
+            System.err.println("Использование: user get <id>");
+            return;
+        }
+
+        Long id = parsePositiveId(parts[2]);
+        if (id == null) return;
+
+        User user = userService.findById(id);
+        if (user == null) {
+            System.err.printf("Пользователь с id=%d не найден%n", id);
+            return;
+        }
+
+        System.out.printf("Пользователь: id=%d, login=%s%n", user.getId(), user.getLogin());
+    }
+
+    private void handleUpdate(String[] parts) {
+        if (parts.length < 4) {
+            System.err.println("Использование: user update <id> <newLogin>");
+            return;
+        }
+
+        Long id = parsePositiveId(parts[2]);
+        if (id == null) return;
+
+        User user = userService.findById(id);
+        if (user == null) {
+            System.err.printf("Пользователь с id=%d не найден, обновление невозможно%n", id);
+            return;
+        }
+
+        userService.updateLogin(id, parts[3]);
+        System.out.println("Логин пользователя обновлён");
+    }
+
+    private void handleDelete(String[] parts) {
+        if (parts.length < 3) {
+            System.err.println("Использование: user delete <id>");
+            return;
+        }
+
+        Long id = parsePositiveId(parts[2]);
+        if (id == null) return;
+
+        User user = userService.findById(id);
+        if (user == null) {
+            System.err.printf("Пользователь с id=%d не найден, удаление невозможно%n", id);
+            return;
+        }
+
+        userService.deleteById(id);
+        System.out.printf("Пользователь с id=%d удалён%n", id);
+    }
+
+    private Long parsePositiveId(String value) {
+        try {
+            long id = Long.parseLong(value);
+            if (id <= 0) {
+                System.err.println("ID должен быть положительным числом");
+                return null;
+            }
+            return id;
+        } catch (NumberFormatException e) {
+            System.err.println("Некорректный формат ID, требуется число");
+            return null;
         }
     }
 }
