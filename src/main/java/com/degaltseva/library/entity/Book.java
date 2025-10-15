@@ -8,6 +8,18 @@ public class Book {
     private int year;
     private boolean isAvailable;
 
+    public Book() {
+
+    }
+
+    public Book(Long id, String title, String author, int year, boolean isAvailable) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.year = year;
+        this.isAvailable = isAvailable;
+    }
+
     public Long getId() {
         return id;
     }
