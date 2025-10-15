@@ -7,7 +7,9 @@ import java.util.Scanner;
 import com.degaltseva.library.entity.Book;
 import com.degaltseva.library.entity.User;
 import com.degaltseva.library.utils.CommandProcessor;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +17,12 @@ import org.springframework.context.annotation.Scope;
 
 @Configuration
 public class Config {
+
+    @Value("${spring.application.name}")
+    private String appName;
+
+    @Value("${spring.application.version}")
+    private String appVersion;
 
     @Bean
     @Scope(value = BeanDefinition.SCOPE_SINGLETON)
@@ -44,5 +52,13 @@ public class Config {
                 }
             }
         };
+    }
+
+    @PostConstruct
+    public void printAppInfo() {
+        System.out.println("=====================================");
+        System.out.printf("Приложение: %s%n", appName);
+        System.out.printf("Версия: %s%n", appVersion);
+        System.out.println("=====================================");
     }
 }
