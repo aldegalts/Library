@@ -45,7 +45,7 @@ public class BookCommand implements Command {
     public String getDescription() {
         return """
            book create <id> <title> <author> <year> — добавить книгу
-           book get <id> — показать данные книги
+           book read <id> — показать данные книги
            book update <id> <title> <author> <year> <available> — обновить данные книги
            book delete <id> — удалить книгу
            book metric /some_metric — вывести метрику

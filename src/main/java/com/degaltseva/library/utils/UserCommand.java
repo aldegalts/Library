@@ -44,7 +44,7 @@ public class UserCommand implements Command {
     public String getDescription() {
         return """
            user create <id> <login> — создать пользователя
-           user get <id> — вывести информацию о пользователе
+           user read <id> — вывести информацию о пользователе
            user update <id> <newLogin> — обновить логин пользователя
            user delete <id> — удалить пользователя
            """;
