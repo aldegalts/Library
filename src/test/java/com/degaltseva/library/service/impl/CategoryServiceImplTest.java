@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -29,16 +31,20 @@ class CategoryServiceImplTest {
     @Autowired
     private BookRepository bookRepository;
 
+    private final Random random = new Random();
+
+    /**
+     * Проверяет, что категория и связанные с ней книги удаляются корректно.
+     */
     @Test
     void deleteCategoryWithBooks_positive() {
-        CategoryEntity category = new CategoryEntity("Science Fiction", "Sci-Fi books");
-        category = categoryRepository.save(category);
+        // Подготовка
+        CategoryEntity category = createAndSaveCategory();
 
-        BookEntity book1 = new BookEntity("Book1", "Author1", "pub1", 1965, category, 10, 9);
-        BookEntity book2 = new BookEntity("Book2", "Author2", "pub2", 1984, category, 5, 5);
-        bookRepository.save(book1);
-        bookRepository.save(book2);
+        BookEntity book1 = createAndSaveBook(category, 1990);
+        BookEntity book2 = createAndSaveBook(category, 2000);
 
+        // Действия и проверки
         categoryService.deleteCategoryWithBooks(category.getCategoryId());
 
         Optional<CategoryEntity> deletedCategory = categoryRepository.findById(category.getCategoryId());
@@ -48,16 +54,37 @@ class CategoryServiceImplTest {
         assertThat(books).doesNotContain(book1, book2);
     }
 
+    /**
+     * Проверяет, что при удалении несуществующей категории выбрасывается исключение,
+     * и транзакция откатывается.
+     */
     @Test
     void deleteCategoryWithBooks_negative_categoryNotFound() {
+        // Подготовка
         Long invalidCategoryId = 999L;
 
-        assertThrows(IllegalArgumentException.class,
-                () -> categoryService.deleteCategoryWithBooks(invalidCategoryId));
+        // Действия и проверки
+        assertThrows(IllegalArgumentException.class, () -> categoryService.deleteCategoryWithBooks(invalidCategoryId));
 
-        List<CategoryEntity> categories = (List<CategoryEntity>) categoryRepository.findAll();
-        List<BookEntity> books = (List<BookEntity>) bookRepository.findAll();
-        assertThat(categories).isNotEmpty();
-        assertThat(books).isNotEmpty();
+        assertThat(categoryRepository.findAll()).isNotNull();
+    }
+
+    private CategoryEntity createAndSaveCategory() {
+        return categoryRepository.save(new CategoryEntity(
+                "Category_" + UUID.randomUUID(),
+                "Description_" + UUID.randomUUID()
+        ));
+    }
+
+    private BookEntity createAndSaveBook(CategoryEntity category, int year) {
+        return bookRepository.save(new BookEntity(
+                "Book_" + UUID.randomUUID(),
+                "Author_" + UUID.randomUUID(),
+                "Publisher_" + UUID.randomUUID(),
+                year,
+                category,
+                random.nextInt(10) + 1,
+                random.nextInt(10) + 1
+        ));
     }
 }

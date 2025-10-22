@@ -13,6 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 @SpringBootTest
 class BookRepositoryCustomTest {
@@ -26,50 +28,78 @@ class BookRepositoryCustomTest {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    private final Random random = new Random();
+
     @BeforeEach
     void cleanDatabase() {
         bookRepository.deleteAll();
         categoryRepository.deleteAll();
     }
 
+    /**
+     * Проверяет, что метод находит книги по названию и диапазону годов публикации.
+     */
     @Test
     @Transactional
     void testFindByTitleAndYearPublishedBetween_positive() {
-        // given
-        CategoryEntity category = new CategoryEntity("Fiction", "Fiction description");
-        category = categoryRepository.save(category);
+        // Подготовка
+        CategoryEntity category = createAndSaveCategory();
 
-        BookEntity book1 = new BookEntity("Test Book", "Author1", "Publisher1", 2020, category, 5, 5);
-        BookEntity book2 = new BookEntity("Test Book", "Author2", "Publisher2", 2021, category, 3, 3);
-        bookRepository.save(book1);
-        bookRepository.save(book2);
+        String commonTitle = randomTitle();
+        createAndSaveBook(commonTitle, category, 2020);
+        createAndSaveBook(commonTitle, category, 2021);
 
-        // when
+        // Действие
         List<BookEntity> foundBooks = bookRepositoryCustom.findByTitleAndYearPublishedBetween(
-                "Test Book", 2020, 2021
+                commonTitle, 2020, 2021
         );
 
-        // then
+        // Проверки
         Assertions.assertEquals(2, foundBooks.size());
-        Assertions.assertTrue(foundBooks.stream().allMatch(b -> b.getTitle().equals("Test Book")));
+        Assertions.assertTrue(foundBooks.stream().allMatch(b -> b.getTitle().equals(commonTitle)));
     }
 
+    /**
+     * Проверяет, что метод возвращает пустой список, если книги не найдены.
+     */
     @Test
     @Transactional
     void testFindByTitleAndYearPublishedBetween_negative() {
-        // given
-        CategoryEntity category = new CategoryEntity("NonFiction", "NonFiction description");
-        category = categoryRepository.save(category);
+        // Подготовка
+        CategoryEntity category = createAndSaveCategory();
+        createAndSaveBook(randomTitle(), category, 2019);
 
-        BookEntity book = new BookEntity("Other Book", "Author", "Publisher", 2019, category, 2, 2);
-        bookRepository.save(book);
-
-        // when
+        // Действие
         List<BookEntity> foundBooks = bookRepositoryCustom.findByTitleAndYearPublishedBetween(
-                "Test Book", 2020, 2021
+                "NonExistingTitle", 2020, 2021
         );
 
-        // then
+        // Проверка
         Assertions.assertTrue(foundBooks.isEmpty());
+    }
+
+    private CategoryEntity createAndSaveCategory() {
+        CategoryEntity category = new CategoryEntity(
+                "Category_" + UUID.randomUUID(),
+                "Description_" + UUID.randomUUID()
+        );
+        return categoryRepository.save(category);
+    }
+
+    private BookEntity createAndSaveBook(String title, CategoryEntity category, int year) {
+        BookEntity book = new BookEntity(
+                title,
+                "Author_" + UUID.randomUUID(),
+                "Publisher_" + UUID.randomUUID(),
+                year,
+                category,
+                random.nextInt(10) + 1,
+                random.nextInt(10) + 1
+        );
+        return bookRepository.save(book);
+    }
+
+    private String randomTitle() {
+        return "Book_" + UUID.randomUUID();
     }
 }
