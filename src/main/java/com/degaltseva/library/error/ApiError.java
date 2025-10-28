@@ -1,5 +1,9 @@
 package com.degaltseva.library.error;
 
+/**
+ * Класс, представляющий объект ошибки для передачи клиенту в REST API.
+ * <p>
+ */
 public class ApiError {
     private String message;
 
@@ -8,6 +12,7 @@ public class ApiError {
     }
 
     public String getMessage() { return message; }
+
     public void setMessage(String message) { this.message = message; }
 
     public static ApiError create(Throwable e) {

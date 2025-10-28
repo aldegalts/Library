@@ -7,6 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+/**
+ * Контроллер для работы с отображением списка книг в веб-интерфейсе.
+ * <p>
+ * Обрабатывает HTTP-запросы, связанные с просмотром данных о книгах,
+ * и возвращает HTML-представления на основе шаблонов Thymeleaf.
+ */
 @Controller
 public class BookController {
 

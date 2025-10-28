@@ -12,6 +12,7 @@ import java.util.List;
 
 /**
  * Контроллер для работы с кастомными запросами через Criteria API.
+ * <p>
  */
 @RestController
 @RequestMapping("/api/criteria")
