@@ -2,7 +2,7 @@ package com.degaltseva.library.repository;
 
 import com.degaltseva.library.entity.BookEntity;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import java.util.List;
 
 /**
@@ -10,7 +10,7 @@ import java.util.List;
  * <p>
  * Расширяет CrudRepository и добавляет метод поиска по названию и диапазону лет публикации.
  */
-@Repository
+@RepositoryRestResource
 public interface BookRepository extends CrudRepository<BookEntity, Long> {
 
     /**

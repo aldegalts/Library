@@ -3,7 +3,7 @@ package com.degaltseva.library.repository;
 import com.degaltseva.library.entity.UserEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  * <p>
  * Расширяет CrudRepository и добавляет метод поиска пользователей по книгам через бронирования.
  */
-@Repository
+@RepositoryRestResource
 public interface UserRepository extends CrudRepository<UserEntity, Long> {
 
     /**
