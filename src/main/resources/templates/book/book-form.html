@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Форма книги</title>
+</head>
+<body>
+<h1 th:text="${book.bookId != null} ? 'Редактировать книгу' : 'Новая книга'"></h1>
+
+<form th:if="${book.bookId != null}"
+      th:action="@{'/books/' + ${book.bookId} + '/update'}"
+      th:object="${book}"
+      method="post">
+
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+    <div><label>Название: <input type="text" th:field="*{title}" required/></label></div>
+    <div><label>Автор: <input type="text" th:field="*{author}" required/></label></div>
+    <div><label>Издательство: <input type="text" th:field="*{publisher}" required/></label></div>
+    <div><label>Год: <input type="number" th:field="*{yearPublished}" required/></label></div>
+
+    <div>
+        <label>Категория:
+            <select th:field="*{category}" required>
+                <option th:each="cat : ${categories}" th:value="${cat}" th:text="${cat.categoryName}"></option>
+            </select>
+        </label>
+    </div>
+
+    <div><label>Всего экземпляров: <input type="number" th:field="*{totalCopies}" required/></label></div>
+    <div><label>Доступно: <input type="number" th:field="*{availableCopies}" required/></label></div>
+
+    <div><input type="submit" value="Сохранить"/></div>
+</form>
+
+<form th:unless="${book.bookId != null}"
+      th:action="@{/books}"
+      th:object="${book}"
+      method="post">
+
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+    <div><label>Название: <input type="text" th:field="*{title}" required/></label></div>
+    <div><label>Автор: <input type="text" th:field="*{author}" required/></label></div>
+    <div><label>Издательство: <input type="text" th:field="*{publisher}" required/></label></div>
+    <div><label>Год: <input type="number" th:field="*{yearPublished}" required/></label></div>
+
+    <div>
+        <label>Категория:
+            <select th:field="*{category}" required>
+                <option th:each="cat : ${categories}" th:value="${cat}" th:text="${cat.categoryName}"></option>
+            </select>
+        </label>
+    </div>
+
+    <div><label>Всего экземпляров: <input type="number" th:field="*{totalCopies}" required/></label></div>
+    <div><label>Доступно: <input type="number" th:field="*{availableCopies}" required/></label></div>
+
+    <div><input type="submit" value="Создать книгу"/></div>
+</form>
+
+<br/>
+<a th:href="@{/books}">Назад к списку книг</a>
+</body>
+</html>

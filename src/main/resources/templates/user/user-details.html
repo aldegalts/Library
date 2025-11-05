@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>User Details</title></head>
+<body>
+<h1>Информация о пользователе</h1>
+
+<p><b>ID:</b> <span th:text="${user.userId}"></span></p>
+<p><b>Имя:</b> <span th:text="${user.userFirstName}"></span></p>
+<p><b>Фамилия:</b> <span th:text="${user.userLastName}"></span></p>
+<p><b>Email:</b> <span th:text="${user.userEmail}"></span></p>
+<p><b>Телефон:</b> <span th:text="${user.phone}"></span></p>
+
+<a href="/users">Назад к списку</a>
+</body>
+</html>

@@ -1,54 +1,70 @@
 package com.degaltseva.library.service.impl;
 
-import com.degaltseva.library.entity.Book;
-import com.degaltseva.library.repository.BookCrudRepository;
+import com.degaltseva.library.entity.BookEntity;
+import com.degaltseva.library.repository.BookRepository;
 import com.degaltseva.library.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 /**
  * Реализация сервиса для работы с книгами.
- * <p>
- * Возможности: создание, поиск, удаление и обновление книг.
  */
 @Service
 public class BookServiceImpl implements BookService {
-    private final BookCrudRepository bookRepository;
+
+    private final BookRepository bookRepository;
 
     @Autowired
-    public BookServiceImpl(BookCrudRepository bookRepository) {
+    public BookServiceImpl(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
     @Override
-    public void createBook(Long id, String title, String author, int year) {
-        Book newBook = new Book();
-        newBook.setId(id);
-        newBook.setTitle(title);
-        newBook.setAuthor(author);
-        newBook.setYear(year);
-        newBook.setAvailable(true);
-        bookRepository.create(newBook);
+    public List<BookEntity> getAllBooks() {
+        List<BookEntity> books = new ArrayList<>();
+        bookRepository.findAll().forEach(books::add);
+        return books;
     }
 
     @Override
-    public Book findById(Long id) {
-        return bookRepository.read(id);
+    public BookEntity getBookById(Long id) {
+        Optional<BookEntity> book = bookRepository.findById(id);
+        return book.orElse(null);
     }
 
     @Override
-    public void deleteById(Long id) {
-        bookRepository.delete(id);
+    public BookEntity createBook(BookEntity book) {
+        return bookRepository.save(book);
     }
 
     @Override
-    public void updateBookData(Long id, String title, String author, int year, boolean isAvailable) {
-        Book book = new Book();
-        book.setId(id);
-        book.setTitle(title);
-        book.setAuthor(author);
-        book.setYear(year);
-        book.setAvailable(isAvailable);
-        bookRepository.update(book);
+    public BookEntity updateBook(Long id, BookEntity updatedBook) {
+        Optional<BookEntity> existing = bookRepository.findById(id);
+        if (existing.isPresent()) {
+            BookEntity book = existing.get();
+            book.setTitle(updatedBook.getTitle());
+            book.setAuthor(updatedBook.getAuthor());
+            book.setPublisher(updatedBook.getPublisher());
+            book.setYearPublished(updatedBook.getYearPublished());
+            book.setCategory(updatedBook.getCategory());
+            book.setTotalCopies(updatedBook.getTotalCopies());
+            book.setAvailableCopies(updatedBook.getAvailableCopies());
+            return bookRepository.save(book);
+        }
+        return null;
+    }
+
+    @Override
+    public void deleteBook(Long id) {
+        bookRepository.deleteById(id);
+    }
+
+    @Override
+    public List<BookEntity> findByTitleAndYearRange(String title, int startYear, int endYear) {
+        return bookRepository.findByTitleAndYearPublishedBetween(title, startYear, endYear);
     }
 }

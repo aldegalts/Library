@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Категории</title></head>
+<body>
+<h1>Категории книг</h1>
+<a href="/categories/new">Добавить категорию</a>
+<table>
+    <tr><th>ID</th><th>Название</th><th>Описание</th><th>Действия</th></tr>
+    <tr th:each="cat : ${categories}">
+        <td th:text="${cat.categoryId}"></td>
+        <td th:text="${cat.categoryName}"></td>
+        <td th:text="${cat.description}"></td>
+        <td>
+            <a th:href="@{'/categories/' + ${cat.categoryId}}">Просмотр</a>
+            <a th:href="@{'/categories/' + ${cat.categoryId} + '/edit'}">Редактировать</a>
+            <form th:action="@{'/categories/' + ${cat.categoryId} + '/delete'}" method="post" style="display:inline;">
+                <input type="submit" value="Удалить"/>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

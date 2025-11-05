@@ -1,7 +1,7 @@
 package com.degaltseva.library.entity;
 
 import jakarta.persistence.*;
-
+import com.degaltseva.library.entity.enums.Role;
 import java.util.List;
 
 /**
@@ -30,6 +30,12 @@ public class UserEntity {
     @Column(name = "phone", length = 20, nullable = false, unique = true)
     private String phone;
 
+    @Column(name = "password_hash", nullable = false)
+    private String password_hash;
+
+    @Column(name = "role", nullable = false)
+    private Role role;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ReservationEntity> reservations;
 
@@ -40,11 +46,13 @@ public class UserEntity {
 
     }
 
-    public UserEntity(String userFirstName, String userLastName, String userEmail, String phone) {
+    public UserEntity(String userFirstName, String userLastName, String userEmail, String phone, String password_hash, Role role) {
         this.userFirstName = userFirstName;
         this.userLastName = userLastName;
         this.userEmail = userEmail;
         this.phone = phone;
+        this.password_hash = password_hash;
+        this.role = role;
     }
 
     public Long getUserId() {
@@ -85,6 +93,22 @@ public class UserEntity {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getPassword_hash() {
+        return password_hash;
+    }
+
+    public void setPassword_hash(String password_hash) {
+        this.password_hash = password_hash;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public List<ReservationEntity> getReservations() {

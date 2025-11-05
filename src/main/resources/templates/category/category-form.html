@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Форма категории</title>
+</head>
+<body>
+<h1 th:text="${category.categoryId != null} ? 'Редактировать категорию' : 'Новая категория'"></h1>
+
+<form th:if="${category.categoryId != null}"
+      th:action="@{'/categories/' + ${category.categoryId} + '/update'}"
+      th:object="${category}"
+      method="post">
+
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+    <div>
+        <label>Название:
+            <input type="text" th:field="*{categoryName}" required/>
+        </label>
+    </div>
+
+    <div>
+        <label>Описание:
+            <textarea th:field="*{description}" required></textarea>
+        </label>
+    </div>
+
+    <div>
+        <input type="submit" value="Обновить категорию"/>
+    </div>
+</form>
+
+
+<form th:unless="${category.categoryId != null}"
+      th:action="@{/categories}"
+      th:object="${category}"
+      method="post">
+
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+    <div>
+        <label>Название:
+            <input type="text" th:field="*{categoryName}" required/>
+        </label>
+    </div>
+
+    <div>
+        <label>Описание:
+            <textarea th:field="*{description}" required></textarea>
+        </label>
+    </div>
+
+    <div>
+        <input type="submit" value="Создать категорию"/>
+    </div>
+</form>
+
+<a href="/categories">Назад к списку</a>
+</body>
+</html>

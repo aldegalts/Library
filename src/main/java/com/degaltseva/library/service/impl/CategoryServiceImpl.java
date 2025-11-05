@@ -12,6 +12,10 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import java.util.List;
 
+/**
+ * Реализация сервиса для управления категориями.
+ * <p>
+ */
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
@@ -38,5 +42,36 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         categoryRepository.delete(category);
+    }
+
+    @Override
+    public List<CategoryEntity> getAllCategories() {
+        return (List<CategoryEntity>) categoryRepository.findAll();
+    }
+
+    @Override
+    public CategoryEntity getCategoryById(Long id) {
+        return categoryRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public CategoryEntity createCategory(CategoryEntity category) {
+        return categoryRepository.save(category);
+    }
+
+    @Override
+    public CategoryEntity updateCategory(Long id, CategoryEntity updatedCategory) {
+        return categoryRepository.findById(id)
+                .map(existing -> {
+                    existing.setCategoryName(updatedCategory.getCategoryName());
+                    existing.setDescription(updatedCategory.getDescription());
+                    return categoryRepository.save(existing);
+                })
+                .orElse(null);
+    }
+
+    @Override
+    public void deleteCategory(Long id) {
+        categoryRepository.deleteById(id);
     }
 }

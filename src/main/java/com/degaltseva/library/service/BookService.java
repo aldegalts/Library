@@ -1,14 +1,25 @@
 package com.degaltseva.library.service;
 
-import com.degaltseva.library.entity.Book;
+import com.degaltseva.library.entity.BookEntity;
+
+import java.util.List;
 
 /**
- * Сервис для работы с книгами библиотеки.
+ * Сервис для работы с книгами.
  * <p>
+ * Возможности: добавление, получение, обновление, удаление и поиск книг по названию и году публикации.
  */
 public interface BookService {
-    void createBook(Long id, String title, String author, int year);
-    Book findById(Long id);
-    void deleteById(Long id);
-    void updateBookData(Long id, String title, String author, int year, boolean isAvailable);
+
+    List<BookEntity> getAllBooks();
+
+    BookEntity getBookById(Long id);
+
+    BookEntity createBook(BookEntity book);
+
+    BookEntity updateBook(Long id, BookEntity book);
+
+    void deleteBook(Long id);
+
+    List<BookEntity> findByTitleAndYearRange(String title, int startYear, int endYear);
 }

@@ -6,6 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Репозиторий для работы с пользователями.
@@ -25,4 +26,6 @@ public interface UserRepository extends CrudRepository<UserEntity, Long> {
      */
     @Query("SELECT r.user FROM ReservationEntity r WHERE r.book.bookId = :bookId")
     List<UserEntity> findUsersByBookId(Long bookId);
+
+    Optional<UserEntity> findByUserEmail(String userEmail);
 }
