@@ -19,6 +19,9 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
+    private final String CATEGORY_FORM_VIEW = "category/category-form";
+    private final String REDIRECT_CATEGORIES = "redirect:/categories";
+
     @Autowired
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
@@ -41,34 +44,34 @@ public class CategoryController {
     @GetMapping("/new")
     public String showCreateForm(Model model) {
         model.addAttribute("category", new CategoryEntity());
-        return "category/category-form";
+        return CATEGORY_FORM_VIEW;
     }
 
     @PostMapping
     public String createCategory(@ModelAttribute("category") CategoryEntity category) {
         categoryService.createCategory(category);
-        return "redirect:/categories";
+        return REDIRECT_CATEGORIES;
     }
 
     @GetMapping("/{id}/edit")
     public String showEditForm(@PathVariable Long id, Model model) {
         CategoryEntity category = categoryService.getCategoryById(id);
         if (category == null) {
-            return "redirect:/categories";
+            return REDIRECT_CATEGORIES;
         }
         model.addAttribute("category", category);
-        return "category/category-form";
+        return CATEGORY_FORM_VIEW;
     }
 
     @PostMapping("/{id}/update")
     public String updateCategory(@PathVariable Long id, @ModelAttribute("category") CategoryEntity category) {
         categoryService.updateCategory(id, category);
-        return "redirect:/categories";
+        return REDIRECT_CATEGORIES;
     }
 
     @PostMapping("/{id}/delete")
     public String deleteCategory(@PathVariable Long id) {
         categoryService.deleteCategory(id);
-        return "redirect:/categories";
+        return REDIRECT_CATEGORIES;
     }
 }

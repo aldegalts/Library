@@ -22,13 +22,6 @@ import org.springframework.http.HttpMethod;
 @EnableWebSecurity
 public class SpringSecurityConfig {
 
-    private final MyUserDetailsService userDetailsService;
-
-    @Autowired
-    public SpringSecurityConfig(MyUserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
-
     @Bean
     public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
@@ -46,6 +39,7 @@ public class SpringSecurityConfig {
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").hasRole("ADMIN")
 
                         .requestMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/users/me").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.GET, "/users/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/users/{id}/update").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/users/{id}/delete").hasRole("ADMIN")
@@ -56,7 +50,7 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/categories/{id}/delete").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/books/new").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/books").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "books/{id}/edit").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/books/{id}/edit").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/books/{id}/update").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/books/{id}/delete").hasRole("ADMIN")
 
@@ -64,6 +58,8 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/categories/{id}").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.GET, "/books").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.GET, "/books/search").hasAnyRole("USER", "ADMIN")
+
+
 
                         .anyRequest().authenticated()
                 )

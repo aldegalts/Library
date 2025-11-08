@@ -21,6 +21,10 @@ public class BookController {
     private final BookService bookService;
     private final CategoryService categoryService;
 
+    private final String BOOKS_VIEW = "book/books";
+    private final String BOOKS_FORM_VIEW = "book/book-form";
+    private final String REDIRECT_BOOKS = "redirect:/books";
+
     @Autowired
     public BookController(BookService bookService, CategoryService categoryService) {
         this.bookService = bookService;
@@ -31,43 +35,43 @@ public class BookController {
     public String listBooks(Model model) {
         List<BookEntity> books = bookService.getAllBooks();
         model.addAttribute("books", books);
-        return "book/books";
+        return BOOKS_VIEW;
     }
 
     @GetMapping("/new")
     public String showCreateForm(Model model) {
         model.addAttribute("book", new BookEntity());
         model.addAttribute("categories", categoryService.getAllCategories());
-        return "book/book-form";
+        return BOOKS_FORM_VIEW;
     }
 
     @PostMapping
     public String createBook(@ModelAttribute("book") BookEntity book) {
         bookService.createBook(book);
-        return "redirect:/books";
+        return REDIRECT_BOOKS;
     }
 
     @GetMapping("/{id}/edit")
     public String showEditForm(@PathVariable Long id, Model model) {
         BookEntity book = bookService.getBookById(id);
         if (book == null) {
-            return "redirect:/books";
+            return REDIRECT_BOOKS;
         }
         model.addAttribute("book", book);
         model.addAttribute("categories", categoryService.getAllCategories());
-        return "book/book-form";
+        return BOOKS_FORM_VIEW;
     }
 
     @PostMapping("/{id}/update")
     public String updateBook(@PathVariable Long id, @ModelAttribute("book") BookEntity book) {
         bookService.updateBook(id, book);
-        return "redirect:/books";
+        return REDIRECT_BOOKS;
     }
 
     @PostMapping("/{id}/delete")
     public String deleteBook(@PathVariable Long id) {
         bookService.deleteBook(id);
-        return "redirect:/books";
+        return REDIRECT_BOOKS;
     }
 
     @GetMapping("/search")
@@ -77,6 +81,6 @@ public class BookController {
                               Model model) {
         List<BookEntity> books = bookService.findByTitleAndYearRange(title, startYear, endYear);
         model.addAttribute("books", books);
-        return "book/books";
+        return BOOKS_VIEW;
     }
 }
